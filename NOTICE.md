@@ -1,21 +1,38 @@
 # NOTICE
 
-## 宠物图像
+## Pet artwork and reference image
 
-`pet/idle/`、`pet/hop/`、`pet/previews/` 和 `source/base.png` 里的图像，来自仓库所有者提供的
-一张立绘（`蓝白鲸尾少女女仆立绘.png`，原图 1024 × 1536）。原始生成来源与作者信息未在此记录。
+The pet artwork (`pet/idle/`, `pet/hop/`, `pet/previews/`, and `source/base.png`)
+was generated with an AI image tool. The repository owner supplied a reference
+image: a Chinese-language meme titled **“当各家 LLM 做道德题时”** (“When LLMs take
+moral questions”), showing Claude, GPT, Llama, and DeepSeek mascots around a table.
+The blue-haired, whale-tailed maid labeled **“DeepSeek”** in that meme is the visual
+basis for this pet.
 
-**这些图像不附带再分发授权。** 它们按个人使用提供（`pet/pet.json` 中
-`"license": "personal-use"`），仅用于本地的 `@linxin666/dsh-pet` 桌宠。
+The reference image is **not included** in this repository. Its original artist and
+source are unknown; it may itself be an AI-generated or fan-made work. It depicts
+third-party characters and marks, and all rights in those remain with their
+respective owners.
 
-如果你要把这个仓库或这些帧公开，请先确认你拥有相应的再分发权利；否则请把素材换成
-你有权发布的图。这个仓库里的脚本、清单和文档不包含对图像的授权。
+No license is granted for the pet artwork. It is provided for personal,
+non-commercial use with `@linxin666/dsh-pet` (`"license": "personal-use"` in
+`pet/pet.json`). If you publish this repository or the frames, confirm that you hold
+the necessary rights, or replace the artwork with material you are licensed to
+share.
 
-## 代码
+If you are a rights holder and believe this repository infringes your rights, please
+open an issue and the material will be removed.
 
-`scripts/`、`tools/`、`docs/` 和 README 使用 MIT 许可；见 [LICENSE](LICENSE)。
+AI-generated output may not be protected by copyright and may be subject to the
+terms of the tool that produced it.
 
-## 第三方
+## Code
 
-DeepSeek Harness、`@linxin666/dsh-pet` 以及相关角色/素材归各自权利人所有。
-这是一个个人使用的同人桌宠包，与官方无隶属或背书关系。
+`scripts/`, `tools/`, `docs/`, and the README are MIT-licensed; see
+[LICENSE](LICENSE).
+
+## Third-party
+
+DeepSeek Harness, `@linxin666/dsh-pet`, and any third-party characters or marks are
+the property of their respective owners. This is an unofficial, personal fan-made
+pet package; it is not affiliated with or endorsed by any of them.

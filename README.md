@@ -1,56 +1,60 @@
-# 蓝白鲸尾女仆 · DSH 桌宠
+# Whale-Maid · DSH Desktop Pet
 
-一只给 [DeepSeek Harness](https://github.com/deepseek-ai) 的 `@linxin666/dsh-pet` 插件用的自定义宠物。
-单张立绘做成的 `frames2d` 动画桌宠：24 帧待机循环 + 11 帧完成小跳。
+An animated custom pet for the DeepSeek Harness [`@linxin666/dsh-pet`](https://github.com/zhu1090093659/dsh-pet) plugin.
+Built from a single illustration: a 24-frame idle loop plus an 11-frame celebration hop.
 
-![待机循环](pet/previews/idle.gif)
+![Idle loop](pet/previews/idle.gif)
 
-![完成小跳](pet/previews/hop.gif)
+![Celebration hop](pet/previews/hop.gif)
 
-## 这是什么
+## What it is
 
-- 宠物 id：`whale-maid`
-- 清单：`pet/pet.json`（manifest v2，`renderer: frames2d`）
-- 待机：`pet/idle/01..24.webp`，100 ms/帧，2.4 秒循环
-- 完成：`pet/hop/01..11.webp`，70 ms/帧，0.77 秒，播放一次后回到待机
-- 帧规格：586 × 884 透明 WebP，共 35 帧
-- 默认显示：210 px 高（可在 设置 → 宠物 调整）
+- Pet id: `whale-maid`
+- Display name: 蓝白鲸尾女仆 (Blue-White Whale-Tail Maid)
+- Manifest: `pet/pet.json` (manifest v2, `renderer: frames2d`)
+- Idle: `pet/idle/01..24.webp`, 100 ms per frame, 2.4 s loop
+- Celebration: `pet/hop/01..11.webp`, 70 ms per frame, 0.77 s, plays once and falls back to idle
+- Frames: 586 × 884 transparent WebP, 35 frames total
+- Default display size: 210 px tall (adjustable in Settings → Pet)
 
-## 一键导入
+## Quick install
 
-要求：已安装 DSH Desktop（或 `dsh web`）并装有 `@linxin666/dsh-pet` 插件。
-Windows 上用 Windows PowerShell 5.1 或 PowerShell 7+ 都可以。
+Requirements: DSH Desktop (or a `dsh web` host) with the `@linxin666/dsh-pet` plugin installed.
+On Windows, both Windows PowerShell 5.1 and PowerShell 7+ work.
 
 ```powershell
-git clone <this-repo-url> whale-maid-dsh-pet
+git clone https://github.com/hellokiaqi/whale-maid-dsh-pet.git
 powershell -NoProfile -ExecutionPolicy Bypass -File .\whale-maid-dsh-pet\scripts\install.ps1
 ```
 
-脚本会：
+The installer:
 
-1. 自动找 `$env:DSH_HOME`，找不到再找 `%USERPROFILE%\.dsh-beta` / `%USERPROFILE%\.dsh`；
-2. 把 `pet/` 复制到 `$DSH_HOME\pets\whale-maid\`；
-3. 打印帧数、目标路径和下一步。
+1. Finds `$env:DSH_HOME`, then falls back to `%USERPROFILE%\.dsh-beta` or `%USERPROFILE%\.dsh`.
+2. Copies `pet/` to `$DSH_HOME\pets\whale-maid\`.
+3. Prints the frame counts, destination, and the next step.
 
-然后 **重启 DSH Desktop**（右键托盘图标 → 重启 DSH Desktop），在 **设置 → 宠物** 里选择「蓝白鲸尾女仆」。
+Then **restart DSH Desktop** (tray icon → Restart DSH Desktop) and choose
+“蓝白鲸尾女仆” in **Settings → Pet**.
 
-想顺便把默认宠物改成它：
+To make it the default pet in one go:
 
 ```powershell
 cd whale-maid-dsh-pet
 powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\install.ps1 -Select
 ```
 
-`-Select` 只会改 `profiles\desktop\cordis.patch.yml` 里 `- id: pet` 这一段的 `petId`；如果找不到这一段，就跳过，仍然可以在设置里手动选。
+`-Select` only edits the `petId` field inside an existing `- id: pet` block in
+`profiles\desktop\cordis.patch.yml`. If that block is not found, it skips the edit and
+you can still select the pet in Settings.
 
-macOS / Linux（DSH 的 home 一般是 `~/.dsh`）：
+macOS / Linux (DSH home is usually `~/.dsh`):
 
 ```bash
-git clone <this-repo-url> whale-maid-dsh-pet
+git clone https://github.com/hellokiaqi/whale-maid-dsh-pet.git
 bash whale-maid-dsh-pet/scripts/install.sh
 ```
 
-## 更新
+## Updating
 
 ```powershell
 cd whale-maid-dsh-pet
@@ -58,28 +62,13 @@ git pull
 powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\install.ps1
 ```
 
-重启 DSH Desktop 即可。宠物 id 不变，之前的选择和亲密度都会保留。
+Restart DSH Desktop afterwards. The pet id never changes, so your selection and
+affinity are preserved.
 
-## 传到 GitHub
+## Manual install
 
-这是一个普通文件夹，没有内嵌 `.git`。在仓库目录里初始化后推上去即可：
-
-```bash
-cd whale-maid-dsh-pet
-git init
-git add .
-git commit -m "Add whale-maid DSH animated pet"
-git branch -M main
-git remote add origin https://github.com/<you>/<repo>.git
-git push -u origin main
-```
-
-推送后 `.github/workflows/verify.yml` 会自动在 GitHub Actions 里跑一次清单/帧校验。
-公开前请先看 [NOTICE.md](NOTICE.md) 里的素材授权说明。
-
-## 手动导入
-
-不跑脚本也可以，直接把仓库的 `pet/` 目录整个复制过去：
+No script needed: copy the whole `pet/` directory to
+`%DSH_HOME%\pets\whale-maid\`.
 
 ```
 %DSH_HOME%\pets\whale-maid\
@@ -88,55 +77,88 @@ git push -u origin main
   hop\01..11.webp
 ```
 
-`pet/previews/` 只是给仓库和设置页看的，插件不会把它当作动画帧；手动导入时可以不要。
+`pet/previews/` is only for the README and previews; the plugin never treats it as
+animation frames. It is optional for a manual install.
 
-## 目录结构
+## Repository layout
 
 ```
 whale-maid-dsh-pet/
-├── pet/                 # 宠物包本体（复制这一层到 $DSH_HOME/pets/whale-maid）
+├── pet/                 # the pet package (copy this to $DSH_HOME/pets/whale-maid)
 │   ├── pet.json
-│   ├── idle/            # 24 帧待机
-│   ├── hop/             # 11 帧完成小跳
-│   └── previews/        # README / 预览用 GIF
+│   ├── idle/            # 24-frame idle loop
+│   ├── hop/             # 11-frame celebration hop
+│   └── previews/        # README / preview GIFs
 ├── source/
-│   └── base.png         # 1022×1550 透明底图，可替换后重新生成
+│   └── base.png         # 1022×1550 transparent base image
 ├── tools/
-│   └── animate.py       # 生成 idle / hop 的网格变形脚本（Python + Pillow + numpy）
+│   └── animate.py       # regenerates idle/hop with a mesh warp (Python + Pillow + numpy)
 ├── scripts/
 │   ├── install.ps1
 │   ├── install.sh
-│   └── verify.mjs       # 不依赖插件内部代码的清单/帧校验
+│   └── verify.mjs       # manifest/frame checks without plugin internals
 ├── docs/
-│   └── ANIMATION.md     # 帧、轨道、速度、相位的说明
+│   └── ANIMATION.md     # tracks, timing, phases, and tuning (Chinese)
 ├── .github/workflows/
-│   └── verify.yml       # push 时跑一次 verify
-├── NOTICE.md            # 素材来源与授权说明
-└── LICENSE              # 脚本/文档 MIT（素材不含）
+│   └── verify.yml       # runs the verifier on push
+├── NOTICE.md            # artwork provenance and licensing
+└── LICENSE              # MIT for scripts/docs (artwork excluded)
 ```
 
-## 兼容性
+## Compatibility
 
-- 清单版本：`petManifestVersion: 2`
-- 渲染器：`frames2d`
-- 在 `@linxin666/dsh-pet` 0.4.7 + DSH Desktop Beta 2.0.18 上验证
-- 插件契约变化时：改 `pet/pet.json`，然后跑 `node scripts/verify.mjs`
+- Manifest version: `petManifestVersion: 2`
+- Renderer: `frames2d`
+- Verified with `@linxin666/dsh-pet` 0.4.7 and DSH Desktop Beta 2.0.18
+- If the plugin contract changes: update `pet/pet.json`, then run
+  `node scripts/verify.mjs`
 
-## 自定义
+## Customization
 
-- **换速度**：改 `pet/pet.json` 里 `idle` 的 `frameMs`（16–5000 ms）。
-- **换动作**：替换 `pet/idle/` 或 `pet/hop/` 的帧，保持文件名和数量，或在 `frames` 列表里改。
-- **加状态**：在 `frames2d.phases` 里把 `waiting` / `thinking` / `review` / `done` / `failed` 映射到已有轨道。
-- **改幅度/重新生成**：改 `tools/animate.py` 顶部的振幅、帧数、时长，然后：
+- **Change speed**: edit `frameMs` for the `idle` track in `pet/pet.json`
+  (16–5000 ms per frame).
+- **Change the motion**: replace the frames in `pet/idle/` or `pet/hop/` and keep
+  the file names/counts, or edit the `frames` arrays.
+- **Add a state**: map `waiting` / `thinking` / `review` / `done` / `failed` to an
+  existing track in `frames2d.phases`.
+- **Regenerate**: edit the amplitudes, frame counts, and durations at the top of
+  `tools/animate.py`, then:
 
 ```bash
+python -m pip install pillow numpy
 python tools/animate.py
 node scripts/verify.mjs
 ```
 
-更多说明见 [docs/ANIMATION.md](docs/ANIMATION.md)。
+See [docs/ANIMATION.md](docs/ANIMATION.md) for the track/phase details (Chinese).
 
-## 授权
+## License
 
-- 脚本、文档：MIT（见 [LICENSE](LICENSE)）
-- 宠物图像（`pet/idle`、`pet/hop`、`source/base.png`、`pet/previews`）：个人使用（`personal-use`），来源与再分发限制见 [NOTICE.md](NOTICE.md)。**如果要公开这个仓库，请先确认你对原立绘拥有再分发权利，或把素材换成你有权的图。**
+- Scripts, manifest, and documentation: MIT (see [LICENSE](LICENSE)).
+- Pet artwork (`pet/idle`, `pet/hop`, `pet/previews`, `source/base.png`):
+  **personal use only** (`"personal-use"` in `pet/pet.json`). See
+  [NOTICE.md](NOTICE.md) and the provenance notice below.
+
+## Provenance and fan-work notice
+
+This pet is an **unofficial fan work**. The artwork was generated with an AI image
+tool from a reference image supplied by the repository owner: a Chinese-language
+meme titled **“当各家 LLM 做道德题时”** (“When LLMs take moral questions”), which
+depicts Claude, GPT, Llama, and DeepSeek mascots seated around a table. The
+blue-haired, whale-tailed maid labeled **“DeepSeek”** in that meme is the visual
+basis for this pet.
+
+The reference image is **not** included in this repository. Its original artist and
+source are unknown; it may itself be an AI-generated or fan-made work. It contains
+third-party characters and marks (Claude, GPT, Llama, DeepSeek); all rights in those
+remain with their respective owners.
+
+This project is **not affiliated with, sponsored by, or endorsed by** DeepSeek,
+Anthropic, OpenAI, Meta, or any other rights holder. The pet artwork is provided for
+**personal, non-commercial use only**; no license is granted to redistribute it.
+If you are a rights holder and believe this repository infringes your rights, please
+open an issue and the material will be removed.
+
+AI-generated output may not be protected by copyright and may be subject to the
+terms of the tool that produced it. If you intend to publish or use this work
+commercially, verify the rights with a qualified lawyer.
