@@ -1,0 +1,116 @@
+{
+  "$schema": "https://schemas.linxin666.org/dsh-pet/pet-manifest-v2.schema.json",
+  "petManifestVersion": 2,
+  "id": "whale-maid",
+  "displayName": "蓝白鲸尾女仆",
+  "description": "蓝白配色的鲸尾女仆少女。会轻轻呼吸、摇尾巴，回合完成时开心地跳一下。",
+  "version": "1.1.0",
+  "license": "personal-use",
+  "renderer": "frames2d",
+  "frames2d": {
+    "tracks": {
+      "idle": {
+        "frames": [
+          "01.webp",
+          "02.webp",
+          "03.webp",
+          "04.webp",
+          "05.webp",
+          "06.webp",
+          "07.webp",
+          "08.webp",
+          "09.webp",
+          "10.webp",
+          "11.webp",
+          "12.webp",
+          "13.webp",
+          "14.webp",
+          "15.webp",
+          "16.webp",
+          "17.webp",
+          "18.webp",
+          "19.webp",
+          "20.webp",
+          "21.webp",
+          "22.webp",
+          "23.webp",
+          "24.webp"
+        ],
+        "frameMs": [
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100
+        ],
+        "loop": true
+      },
+      "hop": {
+        "frames": [
+          "01.webp",
+          "02.webp",
+          "03.webp",
+          "04.webp",
+          "05.webp",
+          "06.webp",
+          "07.webp",
+          "08.webp",
+          "09.webp",
+          "10.webp",
+          "11.webp"
+        ],
+        "frameMs": [
+          70,
+          70,
+          70,
+          70,
+          70,
+          70,
+          70,
+          70,
+          70,
+          70,
+          70
+        ],
+        "loop": false,
+        "fallback": "idle"
+      }
+    },
+    "phases": {
+      "idle": "idle",
+      "done": "hop"
+    }
+  },
+  "remarks": {
+    "pet": [
+      "摸摸头～",
+      "鲸尾摇摇，开心～"
+    ],
+    "feed": [
+      "小鱼干真香！",
+      "再来一条～"
+    ],
+    "noTreats": [
+      "没有小鱼干了……陪我工作一会儿吧～"
+    ]
+  }
+}
