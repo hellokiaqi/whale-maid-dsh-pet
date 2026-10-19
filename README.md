@@ -1,3 +1,5 @@
+**English** | [简体中文](README.zh-CN.md)
+
 # Whale-Maid · DSH Desktop Pet
 
 An animated custom pet for the DeepSeek Harness [`@linxin666/dsh-pet`](https://github.com/zhu1090093659/dsh-pet) plugin.
@@ -101,6 +103,8 @@ whale-maid-dsh-pet/
 │   └── ANIMATION.md     # tracks, timing, phases, and tuning (Chinese)
 ├── .github/workflows/
 │   └── verify.yml       # runs the verifier on push
+├── README.md            # English
+├── README.zh-CN.md      # 简体中文
 ├── NOTICE.md            # artwork provenance and licensing
 └── LICENSE              # MIT for scripts/docs (artwork excluded)
 ```
