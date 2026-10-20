@@ -118,6 +118,7 @@ whale-maid-dsh-pet/
 │   ├── ANIMATION.md     # tracks, timing, phases, and tuning (Chinese)
 │   ├── ASSET_PROMPTS.md # prompts and an asset checklist for complex actions (Chinese)
 │   ├── GPT_WORKFLOW.md  # GPT/ChatGPT phase-by-phase prompt plan (Chinese)
+│   ├── BLINK_WORKFLOW.md # open-eye assets and blink integration (Chinese)
 │   └── templates/       # 1024×1536 frame-guide.png
 ├── .github/workflows/
 │   └── verify.yml       # runs the verifier on push

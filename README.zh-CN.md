@@ -106,6 +106,7 @@ whale-maid-dsh-pet/
 │   ├── ANIMATION.md     # 轨道、时长、相位和调参说明（中文）
 │   ├── ASSET_PROMPTS.md # 复杂动作的提示词与素材清单（中文）
 │   ├── GPT_WORKFLOW.md  # GPT/ChatGPT 分阶段提示词方案（中文）
+│   ├── BLINK_WORKFLOW.md # 睁眼素材与眨眼接入方案（中文）
 │   └── templates/       # 1024×1536 构图参考 frame-guide.png
 ├── .github/workflows/
 │   └── verify.yml       # push 时跑一次校验
