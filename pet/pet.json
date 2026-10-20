@@ -3,8 +3,8 @@
   "petManifestVersion": 2,
   "id": "whale-maid",
   "displayName": "蓝白鲸尾女仆",
-  "description": "蓝白配色的鲸尾女仆少女。会轻轻呼吸、摇尾巴，回合完成时开心地跳一下。",
-  "version": "1.1.0",
+  "description": "蓝白配色的鲸尾女仆少女。有呼吸、摇尾、歪头、小跳和摸头反应。",
+  "version": "1.2.0",
   "license": "personal-use",
   "renderer": "frames2d",
   "frames2d": {
@@ -93,11 +93,434 @@
         ],
         "loop": false,
         "fallback": "idle"
+      },
+      "tail-wag": {
+        "frames": [
+          "01.webp",
+          "02.webp",
+          "03.webp",
+          "04.webp",
+          "05.webp",
+          "06.webp",
+          "07.webp",
+          "08.webp",
+          "09.webp",
+          "10.webp",
+          "11.webp",
+          "12.webp"
+        ],
+        "frameMs": [
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60
+        ],
+        "loop": false,
+        "fallback": "idle"
+      },
+      "head-tilt": {
+        "frames": [
+          "01.webp",
+          "02.webp",
+          "03.webp",
+          "04.webp",
+          "05.webp",
+          "06.webp",
+          "07.webp",
+          "08.webp",
+          "09.webp",
+          "10.webp",
+          "11.webp",
+          "12.webp",
+          "13.webp",
+          "14.webp",
+          "15.webp",
+          "16.webp",
+          "17.webp",
+          "18.webp"
+        ],
+        "frameMs": [
+          80,
+          80,
+          80,
+          80,
+          80,
+          80,
+          80,
+          80,
+          80,
+          80,
+          80,
+          80,
+          80,
+          80,
+          80,
+          80,
+          80,
+          80
+        ],
+        "loop": false,
+        "fallback": "idle"
+      },
+      "bounce": {
+        "frames": [
+          "01.webp",
+          "02.webp",
+          "03.webp",
+          "04.webp",
+          "05.webp",
+          "06.webp",
+          "07.webp",
+          "08.webp",
+          "09.webp",
+          "10.webp",
+          "11.webp",
+          "12.webp"
+        ],
+        "frameMs": [
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60
+        ],
+        "loop": false,
+        "fallback": "idle"
+      },
+      "think": {
+        "frames": [
+          "01.webp",
+          "02.webp",
+          "03.webp",
+          "04.webp",
+          "05.webp",
+          "06.webp",
+          "07.webp",
+          "08.webp",
+          "09.webp",
+          "10.webp",
+          "11.webp",
+          "12.webp",
+          "13.webp",
+          "14.webp",
+          "15.webp",
+          "16.webp",
+          "17.webp",
+          "18.webp",
+          "19.webp",
+          "20.webp",
+          "21.webp",
+          "22.webp",
+          "23.webp",
+          "24.webp"
+        ],
+        "frameMs": [
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120
+        ],
+        "loop": true
+      },
+      "droop": {
+        "frames": [
+          "01.webp",
+          "02.webp",
+          "03.webp",
+          "04.webp",
+          "05.webp",
+          "06.webp",
+          "07.webp",
+          "08.webp",
+          "09.webp",
+          "10.webp",
+          "11.webp",
+          "12.webp",
+          "13.webp",
+          "14.webp"
+        ],
+        "frameMs": [
+          90,
+          90,
+          90,
+          90,
+          90,
+          90,
+          90,
+          90,
+          90,
+          90,
+          90,
+          90,
+          90,
+          90
+        ],
+        "loop": false,
+        "fallback": "idle"
+      },
+      "pat-head": {
+        "frames": [
+          "01.webp",
+          "02.webp",
+          "03.webp",
+          "04.webp",
+          "05.webp",
+          "06.webp",
+          "07.webp",
+          "08.webp",
+          "09.webp",
+          "10.webp",
+          "11.webp",
+          "12.webp",
+          "13.webp",
+          "14.webp"
+        ],
+        "frameMs": [
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60
+        ],
+        "loop": false,
+        "fallback": "idle"
+      },
+      "poke-body": {
+        "frames": [
+          "01.webp",
+          "02.webp",
+          "03.webp",
+          "04.webp",
+          "05.webp",
+          "06.webp",
+          "07.webp",
+          "08.webp",
+          "09.webp",
+          "10.webp",
+          "11.webp",
+          "12.webp"
+        ],
+        "frameMs": [
+          50,
+          50,
+          50,
+          50,
+          50,
+          50,
+          50,
+          50,
+          50,
+          50,
+          50,
+          50
+        ],
+        "loop": false,
+        "fallback": "idle"
+      },
+      "shiver": {
+        "frames": [
+          "01.webp",
+          "02.webp",
+          "03.webp",
+          "04.webp",
+          "05.webp",
+          "06.webp",
+          "07.webp",
+          "08.webp",
+          "09.webp",
+          "10.webp",
+          "11.webp",
+          "12.webp"
+        ],
+        "frameMs": [
+          40,
+          40,
+          40,
+          40,
+          40,
+          40,
+          40,
+          40,
+          40,
+          40,
+          40,
+          40
+        ],
+        "loop": false,
+        "fallback": "idle"
       }
     },
     "phases": {
       "idle": "idle",
-      "done": "hop"
+      "waiting": "idle",
+      "thinking": "think",
+      "tool": "think",
+      "review": "think",
+      "done": "hop",
+      "failed": "droop"
+    }
+  },
+  "gameplay": {
+    "stats": {
+      "mood": {
+        "max": 100,
+        "initial": 60,
+        "decayPerMinute": 0
+      }
+    },
+    "hitBox": {
+      "x0": 0.05,
+      "y0": 0.03,
+      "x1": 0.99,
+      "y1": 0.99
+    },
+    "idleDirector": {
+      "intervalMs": 18000,
+      "maxMiss": 2,
+      "idleWeight": 5,
+      "acts": [
+        {
+          "track": "tail-wag",
+          "weight": 3,
+          "phrases": [
+            "尾巴摇摇～",
+            "今天也很开心～"
+          ]
+        },
+        {
+          "track": "head-tilt",
+          "weight": 2,
+          "phrases": [
+            "在看什么呀？",
+            "嗯？"
+          ]
+        },
+        {
+          "track": "bounce",
+          "weight": 2,
+          "phrases": [
+            "嘿嘿～",
+            "跳一下！"
+          ]
+        }
+      ]
+    },
+    "touch": {
+      "zones": [
+        {
+          "name": "head",
+          "y0": 0,
+          "y1": 0.3,
+          "branches": [
+            {
+              "probability": 1,
+              "state": "pat-head",
+              "stateMs": 840,
+              "effects": [
+                {
+                  "stat": "mood",
+                  "amount": 3
+                }
+              ],
+              "phrases": [
+                "摸摸头～",
+                "好舒服～",
+                "再摸一下～"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "body",
+          "y0": 0.3,
+          "y1": 0.72,
+          "branches": [
+            {
+              "probability": 1,
+              "state": "poke-body",
+              "stateMs": 600,
+              "effects": [
+                {
+                  "stat": "mood",
+                  "amount": 2
+                }
+              ],
+              "phrases": [
+                "呀！",
+                "别戳啦～",
+                "尾巴被看到啦～"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "legs",
+          "y0": 0.72,
+          "y1": 1,
+          "branches": [
+            {
+              "probability": 1,
+              "state": "shiver",
+              "stateMs": 480,
+              "effects": [
+                {
+                  "stat": "mood",
+                  "amount": 2
+                }
+              ],
+              "phrases": [
+                "痒痒的～",
+                "咯咯～",
+                "别挠啦～"
+              ]
+            }
+          ]
+        }
+      ]
     }
   },
   "remarks": {

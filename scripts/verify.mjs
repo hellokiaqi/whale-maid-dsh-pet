@@ -45,6 +45,7 @@ if (typeof manifest.displayName !== 'string' || manifest.displayName.trim() === 
 if (typeof manifest.license !== 'string' || manifest.license.trim() === '') error('license is required')
 if (manifest.renderer !== 'frames2d') error('renderer must be "frames2d" for this package')
 
+const declaredTracks = new Set(Object.keys(isRecord(manifest.frames2d?.tracks) ? manifest.frames2d.tracks : {}))
 const block = manifest.frames2d
 if (!isRecord(block)) {
   error('frames2d block is required')
@@ -112,6 +113,146 @@ if (!isRecord(block)) {
     }
     if (phases.done !== undefined && !trackNames.has(phases.done)) {
       error('phases.done must name a declared track')
+    }
+  }
+
+  const gameplay = manifest.gameplay
+  if (gameplay !== undefined) {
+    if (!isRecord(gameplay)) {
+      error('gameplay must be an object')
+    } else {
+      const stats = new Set()
+      if (gameplay.stats !== undefined) {
+        if (!isRecord(gameplay.stats)) error('gameplay.stats must be an object')
+        else {
+          for (const [name, def] of Object.entries(gameplay.stats)) {
+            stats.add(name)
+            if (!isRecord(def)) {
+              error(`gameplay.stats.${name} must be an object`)
+              continue
+            }
+            if (!Number.isInteger(def.max) || def.max < 1 || def.max > 1_000_000) {
+              error(`gameplay.stats.${name}.max must be an integer in [1, 1000000]`)
+            }
+            if (def.initial !== undefined && (typeof def.initial !== 'number' || def.initial < 0 || def.initial > def.max)) {
+              error(`gameplay.stats.${name}.initial must be within [0, max]`)
+            }
+            for (const key of ['decayPerMinute', 'workingDecayPerMinute', 'idleDecayPerMinute']) {
+              if (def[key] !== undefined && (typeof def[key] !== 'number' || def[key] < 0 || def[key] > 1000)) {
+                error(`gameplay.stats.${name}.${key} must be a number in [0, 1000]`)
+              }
+            }
+          }
+        }
+      }
+
+      const checkEffects = (value, field) => {
+        if (value === undefined) return
+        if (!Array.isArray(value)) {
+          error(`${field} must be an array`)
+          return
+        }
+        for (const [index, effect] of value.entries()) {
+          if (!isRecord(effect)) {
+            error(`${field}[${index}] must be an object`)
+            continue
+          }
+          if (typeof effect.amount !== 'number' || !Number.isFinite(effect.amount)) {
+            error(`${field}[${index}].amount must be a finite number`)
+          }
+          if (effect.stat !== undefined && (typeof effect.stat !== 'string' || !stats.has(effect.stat))) {
+            error(`${field}[${index}] references an undeclared stat: ${JSON.stringify(effect.stat)}`)
+          }
+          if (effect.currency !== undefined && typeof effect.currency !== 'string') {
+            error(`${field}[${index}].currency must be a string`)
+          }
+        }
+      }
+
+      const director = gameplay.idleDirector
+      if (director !== undefined) {
+        if (!isRecord(director) || !Array.isArray(director.acts)) {
+          error('gameplay.idleDirector must be an object with an acts array')
+        } else {
+          if (!Number.isInteger(director.intervalMs) || director.intervalMs < 1000 || director.intervalMs > 60_000) {
+            error('gameplay.idleDirector.intervalMs must be an integer in [1000, 60000]')
+          }
+          if (!Number.isInteger(director.maxMiss) || director.maxMiss < 0 || director.maxMiss > 10) {
+            error('gameplay.idleDirector.maxMiss must be an integer in [0, 10]')
+          }
+          if (!Number.isInteger(director.idleWeight) || director.idleWeight < 0 || director.idleWeight > 10_000) {
+            error('gameplay.idleDirector.idleWeight must be an integer in [0, 10000]')
+          }
+          if (director.acts.length === 0 || director.acts.length > 16) {
+            error('gameplay.idleDirector.acts must declare 1..16 acts')
+          }
+          for (const [index, act] of director.acts.entries()) {
+            if (!isRecord(act)) {
+              error(`gameplay.idleDirector.acts[${index}] must be an object`)
+              continue
+            }
+            if (typeof act.track !== 'string' || !declaredTracks.has(act.track)) {
+              error(`gameplay.idleDirector.acts[${index}] references an undeclared track: ${JSON.stringify(act.track)}`)
+            }
+            if (!Number.isInteger(act.weight) || act.weight < 1 || act.weight > 10_000) {
+              error(`gameplay.idleDirector.acts[${index}].weight must be an integer in [1, 10000]`)
+            }
+          }
+        }
+      }
+
+      const box = gameplay.hitBox
+      if (box !== undefined) {
+        if (!isRecord(box)
+          || ![box.x0, box.x1, box.y0, box.y1].every(value => typeof value === 'number' && value >= 0 && value <= 1)
+          || !(box.x0 < box.x1) || !(box.y0 < box.y1)) {
+          error('gameplay.hitBox must be { x0, y0, x1, y1 } fractions with x0 < x1 and y0 < y1')
+        }
+      }
+
+      const touch = gameplay.touch
+      if (touch !== undefined) {
+        if (!isRecord(touch) || !Array.isArray(touch.zones)) {
+          error('gameplay.touch must be an object with a zones array')
+        } else {
+          if (touch.zones.length === 0 || touch.zones.length > 8) {
+            error('gameplay.touch.zones must declare 1..8 zones')
+          }
+          for (const [index, zone] of touch.zones.entries()) {
+            if (!isRecord(zone) || typeof zone.name !== 'string' || !TRACK_PATTERN.test(zone.name)
+              || typeof zone.y0 !== 'number' || typeof zone.y1 !== 'number'
+              || zone.y0 < 0 || zone.y1 > 1 || !(zone.y0 < zone.y1)) {
+              error(`gameplay.touch.zones[${index}] needs a kebab name and 0 <= y0 < y1 <= 1`)
+              continue
+            }
+            if (!Array.isArray(zone.branches) || zone.branches.length === 0 || zone.branches.length > 8) {
+              error(`gameplay.touch.zones[${index}].branches must declare 1..8 branches`)
+              continue
+            }
+            let probabilitySum = 0
+            for (const [branchIndex, branch] of zone.branches.entries()) {
+              if (!isRecord(branch) || typeof branch.probability !== 'number'
+                || branch.probability <= 0 || branch.probability > 1) {
+                error(`gameplay.touch.zones[${index}].branches[${branchIndex}].probability must be in (0, 1]`)
+                continue
+              }
+              probabilitySum += branch.probability
+              if (branch.state !== undefined && (typeof branch.state !== 'string' || !declaredTracks.has(branch.state))) {
+                error(`gameplay.touch.zones[${index}].branches[${branchIndex}] references an undeclared track: ${JSON.stringify(branch.state)}`)
+              }
+              if (branch.stateMs !== undefined && (!Number.isInteger(branch.stateMs) || branch.stateMs < 200 || branch.stateMs > 10_000)) {
+                error(`gameplay.touch.zones[${index}].branches[${branchIndex}].stateMs must be an integer in [200, 10000]`)
+              }
+              checkEffects(branch.effects, `gameplay.touch.zones[${index}].branches[${branchIndex}].effects`)
+            }
+            if (probabilitySum > 1 + 1e-9) {
+              error(`gameplay.touch.zones[${index}].branches probabilities must sum to at most 1`)
+            }
+          }
+        }
+      }
+
+      console.log(`gameplay: ${stats.size} stats, ${director?.acts?.length ?? 0} idle acts, ${touch?.zones?.length ?? 0} touch zones`)
     }
   }
 

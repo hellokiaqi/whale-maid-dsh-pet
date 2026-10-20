@@ -3,21 +3,34 @@
 # Whale-Maid · DSH Desktop Pet
 
 An animated custom pet for the DeepSeek Harness [`@linxin666/dsh-pet`](https://github.com/zhu1090093659/dsh-pet) plugin.
-Built from a single illustration: a 24-frame idle loop plus an 11-frame celebration hop.
+Built from a single illustration: 10 tracks and 153 frames, with ambient idle acts,
+session-state reactions, and click reactions.
+
+![Action showreel](pet/previews/showreel.gif)
 
 ![Idle loop](pet/previews/idle.gif)
-
-![Celebration hop](pet/previews/hop.gif)
 
 ## What it is
 
 - Pet id: `whale-maid`
 - Display name: 蓝白鲸尾女仆 (Blue-White Whale-Tail Maid)
 - Manifest: `pet/pet.json` (manifest v2, `renderer: frames2d`)
+- 10 tracks, 153 frames: 496 × 724 transparent WebP
 - Idle: `pet/idle/01..24.webp`, 100 ms per frame, 2.4 s loop
-- Celebration: `pet/hop/01..11.webp`, 70 ms per frame, 0.77 s, plays once and falls back to idle
-- Frames: 586 × 884 transparent WebP, 35 frames total
+- Ambient: a weighted idle director rolls every 18 s; an act lands roughly
+  every ~30 s (tail wag, head tilt, or a small bounce)
+- Session states: thinking / tool / review → `think` loop; done → `hop`;
+  failed → `droop`
+- Click reactions: head / body / legs → `pat-head` / `poke-body` / `shiver`
 - Default display size: 210 px tall (adjustable in Settings → Pet)
+
+## Controls
+
+- Click the **head**, **body**, or **legs** to play a reaction. The click still
+  counts as petting and raises the small mood bar.
+- Hover the pet and open **玩法 / Play** to see the mood card.
+- The idle director rolls every ~18 s when nothing else owns the sprite; after two
+  idle rolls in a row it forces an act.
 
 ## Quick install
 
@@ -77,6 +90,7 @@ No script needed: copy the whole `pet/` directory to
   pet.json
   idle\01..24.webp
   hop\01..11.webp
+  tail-wag\  head-tilt\  bounce\  think\  droop\  pat-head\  poke-body\  shiver\
 ```
 
 `pet/previews/` is only for the README and previews; the plugin never treats it as
@@ -90,11 +104,12 @@ whale-maid-dsh-pet/
 │   ├── pet.json
 │   ├── idle/            # 24-frame idle loop
 │   ├── hop/             # 11-frame celebration hop
+│   ├── tail-wag/ ...    # 8 more reaction / ambient tracks
 │   └── previews/        # README / preview GIFs
 ├── source/
 │   └── base.png         # 1022×1550 transparent base image
 ├── tools/
-│   └── animate.py       # regenerates idle/hop with a mesh warp (Python + Pillow + numpy)
+│   └── animate.py       # regenerates all tracks + pet.json (Python + Pillow + numpy)
 ├── scripts/
 │   ├── install.ps1
 │   ├── install.sh
@@ -113,19 +128,24 @@ whale-maid-dsh-pet/
 
 - Manifest version: `petManifestVersion: 2`
 - Renderer: `frames2d`
+- Pet version: `1.2.0` (10 tracks, 153 frames)
 - Verified with `@linxin666/dsh-pet` 0.4.7 and DSH Desktop Beta 2.0.18
 - If the plugin contract changes: update `pet/pet.json`, then run
   `node scripts/verify.mjs`
 
 ## Customization
 
-- **Change speed**: edit `frameMs` for the `idle` track in `pet/pet.json`
+- **Change speed**: edit `frameMs` for a track in `pet/pet.json`
   (16–5000 ms per frame).
-- **Change the motion**: replace the frames in `pet/idle/` or `pet/hop/` and keep
-  the file names/counts, or edit the `frames` arrays.
+- **Change the motion**: replace the frames in a track directory and keep the
+  file names/counts, or edit the `frames` arrays.
+- **Change idle acts**: edit `gameplay.idleDirector` in `pet/pet.json` —
+  `intervalMs`, `idleWeight`, `maxMiss`, and the weighted `acts`.
+- **Change click reactions**: edit `gameplay.touch.zones` — each zone is a
+  vertical slice with a `state` track, `stateMs`, phrases, and mood effects.
 - **Add a state**: map `waiting` / `thinking` / `review` / `done` / `failed` to an
   existing track in `frames2d.phases`.
-- **Regenerate**: edit the amplitudes, frame counts, and durations at the top of
+- **Regenerate**: edit the amplitudes, frame counts, and durations in
   `tools/animate.py`, then:
 
 ```bash
@@ -134,12 +154,15 @@ python tools/animate.py
 node scripts/verify.mjs
 ```
 
+`tools/animate.py` also writes `pet/pet.json` and the preview GIFs, so it is the
+single source of truth for the track table.
+
 See [docs/ANIMATION.md](docs/ANIMATION.md) for the track/phase details (Chinese).
 
 ## License
 
 - Scripts, manifest, and documentation: MIT (see [LICENSE](LICENSE)).
-- Pet artwork (`pet/idle`, `pet/hop`, `pet/previews`, `source/base.png`):
+- Pet artwork (`pet/*/*.webp`, `pet/previews`, `source/base.png`):
   **personal use only** (`"personal-use"` in `pet/pet.json`). See
   [NOTICE.md](NOTICE.md) and the provenance notice below.
 

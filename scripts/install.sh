@@ -35,13 +35,15 @@ cp -R "$PET_SOURCE/." "$DEST/"
 
 IDLE_COUNT=$(find "$DEST/idle" -maxdepth 1 -name '*.webp' | wc -l | tr -d ' ')
 HOP_COUNT=$(find "$DEST/hop" -maxdepth 1 -name '*.webp' | wc -l | tr -d ' ')
+TRACK_COUNT=$(find "$DEST" -mindepth 1 -maxdepth 1 -type d ! -name previews | wc -l | tr -d ' ')
+FRAME_COUNT=$(find "$DEST" -name '*.webp' | wc -l | tr -d ' ')
 SIZE_MB=$(du -sm "$DEST" | awk '{print $1}')
 
 echo ""
 echo "Installed: $DEST"
-echo "  idle: $IDLE_COUNT frames"
-echo "  hop:  $HOP_COUNT frames"
-echo "  size: ${SIZE_MB} MB"
+echo "  tracks: $TRACK_COUNT  (idle $IDLE_COUNT frames, hop $HOP_COUNT frames)"
+echo "  frames: $FRAME_COUNT"
+echo "  size:   ${SIZE_MB} MB"
 echo ""
 echo "Next steps:"
 echo "  1. Restart DSH (desktop tray -> Restart DSH Desktop, or restart your dsh web host)."

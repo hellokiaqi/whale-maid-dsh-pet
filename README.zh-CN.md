@@ -3,22 +3,29 @@
 # 蓝白鲸尾女仆 · DSH 桌宠
 
 一只给 DeepSeek Harness [`@linxin666/dsh-pet`](https://github.com/zhu1090093659/dsh-pet) 插件用的动画自定义宠物。
-由一张立绘生成：24 帧待机循环 + 11 帧完成小跳。
+由一张立绘生成：10 条轨道、153 帧，包含待机小动作、会话状态反应和点击反应。
+
+![动作展示](pet/previews/showreel.gif)
 
 ![待机循环](pet/previews/idle.gif)
-
-![完成小跳](pet/previews/hop.gif)
 
 ## 这是什么
 
 - 宠物 id：`whale-maid`
 - 显示名：蓝白鲸尾女仆（Blue-White Whale-Tail Maid）
 - 清单：`pet/pet.json`（manifest v2，`renderer: frames2d`）
+- 10 条轨道、153 帧：496 × 724 透明 WebP
 - 待机：`pet/idle/01..24.webp`，100 ms/帧，2.4 秒循环
-- 完成：`pet/hop/01..11.webp`，70 ms/帧，0.77 秒，播放一次后回到待机
-- 帧规格：586 × 884 透明 WebP，共 35 帧
+- 环境动作：空闲导演每 18 秒掷一次骰，大约每 30 秒会出一个动作（摇尾 / 歪头 / 小跳）
+- 会话状态：thinking / tool / review → `think`；done → `hop`；failed → `droop`
+- 点击反应：头 / 身体 / 腿 → `pat-head` / `poke-body` / `shiver`
 - 默认显示：210 px 高（可在 设置 → 宠物 调整）
 
+## 操作
+
+- 点 **头 / 身体 / 腿** 会播放对应反应，同时仍算摸头并增加心情值。
+- 悬停宠物，打开 **玩法** 可以看心情条。
+- 空闲导演每约 18 秒掷一次骰；连续两次没抽中动作后会强制演一个。
 ## 一键导入
 
 要求：已安装 DSH Desktop（或 `dsh web`）并装有 `@linxin666/dsh-pet` 插件。
@@ -72,6 +79,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\install.ps1
   pet.json
   idle\01..24.webp
   hop\01..11.webp
+  tail-wag\  head-tilt\  bounce\  think\  droop\  pat-head\  poke-body\  shiver\
 ```
 
 `pet/previews/` 只是给 README 和预览看的，插件不会把它当作动画帧；手动导入时可以不要。
@@ -84,11 +92,12 @@ whale-maid-dsh-pet/
 │   ├── pet.json
 │   ├── idle/            # 24 帧待机
 │   ├── hop/             # 11 帧完成小跳
+│   ├── tail-wag/ ...    # 另外 8 条反应/环境轨道
 │   └── previews/        # README / 预览用 GIF
 ├── source/
 │   └── base.png         # 1022×1550 透明底图
 ├── tools/
-│   └── animate.py       # 用网格变形重新生成 idle / hop（Python + Pillow + numpy）
+│   └── animate.py       # 生成全部轨道 + pet.json（Python + Pillow + numpy）
 ├── scripts/
 │   ├── install.ps1
 │   ├── install.sh
@@ -107,15 +116,18 @@ whale-maid-dsh-pet/
 
 - 清单版本：`petManifestVersion: 2`
 - 渲染器：`frames2d`
+- 宠物版本：`1.2.0`（10 条轨道，153 帧）
 - 在 `@linxin666/dsh-pet` 0.4.7 + DSH Desktop Beta 2.0.18 上验证
 - 插件契约变化时：改 `pet/pet.json`，然后跑 `node scripts/verify.mjs`
 
 ## 自定义
 
-- **换速度**：改 `pet/pet.json` 里 `idle` 的 `frameMs`（16–5000 ms）。
-- **换动作**：替换 `pet/idle/` 或 `pet/hop/` 的帧，保持文件名和数量，或改 `frames` 列表。
+- **换速度**：改 `pet/pet.json` 里对应轨道的 `frameMs`（16–5000 ms）。
+- **换动作**：替换某条轨道的帧，保持文件名和数量，或改 `frames` 列表。
+- **改待机小动作**：改 `pet/pet.json` 的 `gameplay.idleDirector`（`intervalMs`、`idleWeight`、`maxMiss`、权重 `acts`）。
+- **改点击反应**：改 `gameplay.touch.zones`（纵向区域、`state` 轨道、`stateMs`、台词、心情效果）。
 - **加状态**：在 `frames2d.phases` 里把 `waiting` / `thinking` / `review` / `done` / `failed` 映射到已有轨道。
-- **改幅度/重新生成**：改 `tools/animate.py` 顶部的振幅、帧数、时长，然后：
+- **改幅度/重新生成**：改 `tools/animate.py` 里的振幅、帧数、时长，然后：
 
 ```bash
 python -m pip install pillow numpy
@@ -123,12 +135,14 @@ python tools/animate.py
 node scripts/verify.mjs
 ```
 
+`tools/animate.py` 会同时重写 `pet/pet.json` 和预览 GIF，是轨道表的唯一来源。
+
 更多说明见 [docs/ANIMATION.md](docs/ANIMATION.md)。
 
 ## 授权
 
 - 脚本、清单、文档：MIT（见 [LICENSE](LICENSE)）。
-- 宠物图像（`pet/idle`、`pet/hop`、`pet/previews`、`source/base.png`）：
+- 宠物图像（`pet/` 下的各轨道 WebP、`pet/previews`、`source/base.png`）：
   **仅限个人使用**（`pet/pet.json` 中 `"license": "personal-use"`）。见
   [NOTICE.md](NOTICE.md)（英文）和下方声明。
 

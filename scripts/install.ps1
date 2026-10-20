@@ -68,8 +68,11 @@ $manifestText = [System.IO.File]::ReadAllText($manifestPath, [System.Text.Encodi
 $manifest = $manifestText | ConvertFrom-Json
 $idleCount = @($manifest.frames2d.tracks.idle.frames).Count
 $hopCount = @($manifest.frames2d.tracks.hop.frames).Count
+$trackCount = @($manifest.frames2d.tracks.PSObject.Properties).Count
+$frameCount = 0
 $missing = @()
 foreach ($track in @($manifest.frames2d.tracks.PSObject.Properties)) {
+  $frameCount += @($track.Value.frames).Count
   foreach ($frame in @($track.Value.frames)) {
     $path = Join-Path $dest (Join-Path $track.Name $frame)
     if (-not (Test-Path $path)) { $missing += $path }
@@ -81,8 +84,8 @@ $totalMb = [math]::Round($totalBytes / 1MB, 2)
 Write-Host ""
 Write-Host "Installed: $dest" -ForegroundColor Green
 Write-Host "  id:     $($manifest.id)  ($($manifest.displayName))"
-Write-Host "  idle:   $idleCount frames"
-Write-Host "  hop:    $hopCount frames"
+Write-Host "  tracks: $trackCount  (idle $idleCount frames, hop $hopCount frames)"
+Write-Host "  frames: $frameCount"
 Write-Host "  size:   $totalMb MB"
 if ($missing.Count -gt 0) {
   Write-Warning "Missing frame files:"
