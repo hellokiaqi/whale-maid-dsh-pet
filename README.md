@@ -115,7 +115,8 @@ whale-maid-dsh-pet/
 │   ├── install.sh
 │   └── verify.mjs       # manifest/frame checks without plugin internals
 ├── docs/
-│   └── ANIMATION.md     # tracks, timing, phases, and tuning (Chinese)
+│   ├── ANIMATION.md     # tracks, timing, phases, and tuning (Chinese)
+│   └── ASSET_PROMPTS.md # prompts and an asset checklist for complex actions (Chinese)
 ├── .github/workflows/
 │   └── verify.yml       # runs the verifier on push
 ├── README.md            # English
@@ -145,6 +146,9 @@ whale-maid-dsh-pet/
   vertical slice with a `state` track, `stateMs`, phrases, and mood effects.
 - **Add a state**: map `waiting` / `thinking` / `review` / `done` / `failed` to an
   existing track in `frames2d.phases`.
+- **Need more complex actions** (crouch and draw a circle, spin dance)? See
+  [docs/ASSET_PROMPTS.md](docs/ASSET_PROMPTS.md) for character-consistent prompt
+  templates, key-pose lists, and the asset checklist.
 - **Regenerate**: edit the amplitudes, frame counts, and durations in
   `tools/animate.py`, then:
 
