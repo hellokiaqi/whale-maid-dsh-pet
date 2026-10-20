@@ -116,7 +116,9 @@ whale-maid-dsh-pet/
 │   └── verify.mjs       # manifest/frame checks without plugin internals
 ├── docs/
 │   ├── ANIMATION.md     # tracks, timing, phases, and tuning (Chinese)
-│   └── ASSET_PROMPTS.md # prompts and an asset checklist for complex actions (Chinese)
+│   ├── ASSET_PROMPTS.md # prompts and an asset checklist for complex actions (Chinese)
+│   ├── GPT_WORKFLOW.md  # GPT/ChatGPT phase-by-phase prompt plan (Chinese)
+│   └── templates/       # 1024×1536 frame-guide.png
 ├── .github/workflows/
 │   └── verify.yml       # runs the verifier on push
 ├── README.md            # English
@@ -149,6 +151,9 @@ whale-maid-dsh-pet/
 - **Need more complex actions** (crouch and draw a circle, spin dance)? See
   [docs/ASSET_PROMPTS.md](docs/ASSET_PROMPTS.md) for character-consistent prompt
   templates, key-pose lists, and the asset checklist.
+- **Using GPT / ChatGPT for the art?** See
+  [docs/GPT_WORKFLOW.md](docs/GPT_WORKFLOW.md) for a phase-by-phase prompt plan and
+  the handoff checklist.
 - **Regenerate**: edit the amplitudes, frame counts, and durations in
   `tools/animate.py`, then:
 

@@ -104,7 +104,9 @@ whale-maid-dsh-pet/
 │   └── verify.mjs       # 不依赖插件内部代码的清单/帧校验
 ├── docs/
 │   ├── ANIMATION.md     # 轨道、时长、相位和调参说明（中文）
-│   └── ASSET_PROMPTS.md # 复杂动作的提示词与素材清单（中文）
+│   ├── ASSET_PROMPTS.md # 复杂动作的提示词与素材清单（中文）
+│   ├── GPT_WORKFLOW.md  # GPT/ChatGPT 分阶段提示词方案（中文）
+│   └── templates/       # 1024×1536 构图参考 frame-guide.png
 ├── .github/workflows/
 │   └── verify.yml       # push 时跑一次校验
 ├── README.md            # English
@@ -129,6 +131,7 @@ whale-maid-dsh-pet/
 - **改点击反应**：改 `gameplay.touch.zones`（纵向区域、`state` 轨道、`stateMs`、台词、心情效果）。
 - **加状态**：在 `frames2d.phases` 里把 `waiting` / `thinking` / `review` / `done` / `failed` 映射到已有轨道。
 - **想做蹲下画圈、转圈跳舞这类复杂动作**：见 [docs/ASSET_PROMPTS.md](docs/ASSET_PROMPTS.md) 的提示词、关键姿势清单和素材规格。
+- **主要用 GPT / ChatGPT 生图**：见 [docs/GPT_WORKFLOW.md](docs/GPT_WORKFLOW.md) 的分阶段提示词和交付清单。
 - **改幅度/重新生成**：改 `tools/animate.py` 里的振幅、帧数、时长，然后：
 
 ```bash
